@@ -195,6 +195,7 @@ fun Route.deleteMediaFromUser(
             return@post
         }
 
+
         call.respond(
             status = HttpStatusCode.OK,
             message = "Media deletion succeeded"

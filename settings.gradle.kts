@@ -1,1 +1,1 @@
-rootProject.name = "com.ahmedapps.the-movies-info-course-backend"
+rootProject.name = "com.ahmedapps.watchy-backend"
