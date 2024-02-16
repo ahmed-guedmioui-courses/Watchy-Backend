@@ -19,6 +19,14 @@ Database connection: Ensure you have a MongoDB Atlas account and configure conne
 
 We welcome your contributions! Feel free to suggest improvements, fix bugs, add features, or enhance documentation. Please follow the contributing guidelines outlined in the CONTRIBUTING.md file.
 
-Community Appreciation:
+## Community Appreciation:
 
 A big thank you to the Ktor, Kotlin, and MongoDB communities for their contributions and support. Together, we can make Watchy an even better experience for movie and TV series enthusiasts!
+
+
+## Images From The Watchy App That Users This Backend:
+![main](https://github.com/ahmed-guedmioui-projects/Watchy-Backend/assets/59929234/91eb8af3-965e-4b23-aa17-903434151881)
+![main 1 copy](https://github.com/ahmed-guedmioui-projects/Watchy-Backend/assets/59929234/7901d1ef-b0dc-4f03-af80-2d215dbd6a95)
+![main 2 copy](https://github.com/ahmed-guedmioui-projects/Watchy-Backend/assets/59929234/b5de7a61-9155-4051-8365-a6098a0a2bda)
+![main 3 copy](https://github.com/ahmed-guedmioui-projects/Watchy-Backend/assets/59929234/fc5cbee8-2c8b-49e3-ac2f-9d697cd986fc)
+![main 4 copy](https://github.com/ahmed-guedmioui-projects/Watchy-Backend/assets/59929234/424d386d-2aa0-49d1-8b37-79f3c1118ee3)
