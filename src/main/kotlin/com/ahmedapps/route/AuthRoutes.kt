@@ -6,13 +6,8 @@ import com.ahmedapps.data.user.User
 import com.ahmedapps.data.user.UserDataSource
 import com.ahmedapps.secutry.haching.HashingService
 import com.ahmedapps.secutry.haching.SaltedHash
-import com.ahmedapps.secutry.token.TokenClaim
-import com.ahmedapps.secutry.token.TokenConfig
-import com.ahmedapps.secutry.token.TokenService
 import io.ktor.http.*
 import io.ktor.server.application.*
-import io.ktor.server.auth.*
-import io.ktor.server.auth.jwt.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
@@ -24,12 +19,20 @@ fun Route.signup(
     post("signup") {
         val request = call.receiveNullable<AuthRequest>() ?: kotlin.run {
             call.respond(HttpStatusCode.BadRequest)
+            println("Ahmed BadRequest")
+            println("Ahmed BadRequest")
+            println("Ahmed BadRequest")
+            println("Ahmed BadRequest")
             return@post
         }
 
         val areFieldsBlank = request.name.isBlank() || request.password.isBlank()
         val isPwTooShort = request.password.length < 8
         if (areFieldsBlank || isPwTooShort) {
+            println("Ahmed Conflict")
+            println("Ahmed Conflict")
+            println("Ahmed Conflict")
+            println("Ahmed Conflict")
             call.respond(HttpStatusCode.Conflict, "Invalid password or username")
             return@post
         }
@@ -44,6 +47,10 @@ fun Route.signup(
         )
         val wasAcknowledge = userDataSource.insertUser(user)
         if (!wasAcknowledge) {
+            println("Ahmed wasAcknowledge")
+            println("Ahmed wasAcknowledge")
+            println("Ahmed wasAcknowledge")
+            println("Ahmed wasAcknowledge")
             call.respond(HttpStatusCode.Conflict)
             return@post
         }
@@ -54,9 +61,7 @@ fun Route.signup(
 
 fun Route.signin(
     hashingService: HashingService,
-    userDataSource: UserDataSource,
-    tokenService: TokenService,
-    tokenConfig: TokenConfig
+    userDataSource: UserDataSource
 ) {
     post("signin") {
         val request = call.receiveNullable<AuthRequest>() ?: kotlin.run {
@@ -81,43 +86,39 @@ fun Route.signin(
             return@post
         }
 
-        val token = tokenService.generate(
-            config = tokenConfig,
-            TokenClaim(
-                name = "userId",
-                value = user.id.toString()
+        call.respond(
+            status = HttpStatusCode.OK,
+            message = AuthResponse(
+                name = user.name
             )
         )
+    }
+
+}
+
+
+fun Route.authenticate(userDataSource: UserDataSource) {
+    post("authenticate") {
+        val request = call.receiveNullable<AuthRequest>() ?: kotlin.run {
+            call.respond(HttpStatusCode.BadRequest)
+            return@post
+        }
+        val user = userDataSource.getUserByEmail(request.email)
+        if (user == null) {
+            call.respond(HttpStatusCode.Unauthorized, "Session expired")
+            return@post
+        }
 
         call.respond(
             status = HttpStatusCode.OK,
             message = AuthResponse(
-                name = user.name,
-                token = token
+                name = user.name
             )
         )
-    }
-
-}
-
-
-fun Route.authenticate() {
-    authenticate {
-        get("authenticate") {
-            call.respond(HttpStatusCode.OK)
-        }
+        call.respond(HttpStatusCode.OK, "authenticate succeeded")
     }
 }
 
-fun Route.getSecretInfo() {
-    authenticate {
-        get("secret") {
-            val principal = call.principal<JWTPrincipal>()
-            val userId = principal?.getClaim("userId", String::class)
-            call.respond(HttpStatusCode.OK, "your userId is $userId")
-        }
-    }
-}
 
 
 
