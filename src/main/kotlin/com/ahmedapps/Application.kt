@@ -9,14 +9,11 @@ import com.ahmedapps.plugins.configureRouting
 import com.ahmedapps.plugins.configureSecurity
 import com.ahmedapps.plugins.configureSerialization
 import com.ahmedapps.secutry.haching.SHA256HashingService
-import com.ahmedapps.secutry.token.JwtTokenService
-import com.ahmedapps.secutry.token.TokenConfig
 import io.ktor.server.application.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.litote.kmongo.coroutine.coroutine
 import org.litote.kmongo.reactivestreams.KMongo
-import java.util.*
 
 fun main(args: Array<String>) {
     io.ktor.server.netty.EngineMain.main(args)
@@ -35,19 +32,12 @@ fun Application.module() {
 
     val userDataSource = MongoUserDataSource(db)
     val mediaDataSource = MongoMediaDataSource(db)
-    val tokenService = JwtTokenService()
-    val tokenConfig = TokenConfig(
-        issuer = environment.config.property("jwt.issuer").getString(),
-        audience = environment.config.property("jwt.audience").getString(),
-        expiresIn = 365L * 1000L * 60L * 60L * 24L,
-        secret = System.getenv("JWT_SECRET")
-    )
     val hashingService = SHA256HashingService()
 
     configureSerialization()
     configureMonitoring()
-    configureSecurity(tokenConfig)
-    configureRouting(hashingService, userDataSource, mediaDataSource, tokenService, tokenConfig)
+    configureSecurity()
+    configureRouting(hashingService, userDataSource, mediaDataSource)
 
 
 }

@@ -4,27 +4,21 @@ import com.ahmedapps.data.media.MediaDataSource
 import com.ahmedapps.data.user.UserDataSource
 import com.ahmedapps.route.*
 import com.ahmedapps.secutry.haching.HashingService
-import com.ahmedapps.secutry.token.TokenConfig
-import com.ahmedapps.secutry.token.TokenService
 import io.ktor.server.application.*
 import io.ktor.server.routing.*
 
 fun Application.configureRouting(
     hashingService: HashingService,
     userDataSource: UserDataSource,
-    mediaDataSource: MediaDataSource,
-    tokenService: TokenService,
-    tokenConfig: TokenConfig
+    mediaDataSource: MediaDataSource
 ) {
     routing {
 
         signin(
-            hashingService, userDataSource, tokenService, tokenConfig
+            hashingService, userDataSource
         )
         signup(hashingService, userDataSource)
-        authenticate()
-        getSecretInfo()
-
+        authenticate(userDataSource)
         getLikedMediaItemList(mediaDataSource, userDataSource)
         getBookmarkedMediaItemList(mediaDataSource, userDataSource)
         getMediaById(mediaDataSource, userDataSource)
